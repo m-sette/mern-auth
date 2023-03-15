@@ -13,5 +13,4 @@ export const loginController = async (req, res, next) => {
    } catch (error) {
        next(error)
    }
-    res.json({msg: "it works"})
 }
