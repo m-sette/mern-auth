@@ -5,6 +5,7 @@ import cors from 'cors';
 import error from './middleware/error.js';
 import notFound from './middleware/notfound.js';
 import usersRouter from './router/usersRouter.js';
+import loginRouter from './router/loginRouter.js'
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use('/api/users', usersRouter);
+app.use("/login", loginRouter)
 
 app.use(notFound);
 app.use(error);
