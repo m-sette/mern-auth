@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Login = () => {
@@ -6,6 +7,7 @@ const Login = () => {
         email: '',
         password: '',
     });
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         setData({ ...data, [e.target.name]: e.target.value });
@@ -25,6 +27,9 @@ const Login = () => {
             );
 
             console.log('res', res);
+            if (res.data.success) {
+                navigate('/dashboard');
+            }
         } catch (error) {
             console.error(error.response.data);
         }

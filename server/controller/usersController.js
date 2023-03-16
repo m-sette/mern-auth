@@ -1,4 +1,5 @@
 import User from '../model/usersModel.js';
+import jwt from 'jsonwebtoken';
 
 export const addUser = async (req, res, next) => {
     const { email } = req.body;
@@ -22,7 +23,7 @@ export const addUser = async (req, res, next) => {
     }
 };
 
-export const getUser = async (req, res, next) => {
+export const userLogin = async (req, res, next) => {
     const { email, password } = req.body;
     try {
         const user = await User.findOne({ email });
@@ -31,8 +32,31 @@ export const getUser = async (req, res, next) => {
         const pass = await user.validatePassword(password);
         if (!pass) throw new Error('Invalid password');
 
-        res.json({ success: true });
+        /**
+         * create a token to send in the headers
+         */
+        const token = jwt.sign({ email: user.email }, 'secrete');
+
+        res.status(202).header('token', token).json({ success: true, email });
     } catch (error) {
         next(error);
     }
 };
+
+export const getUser = async (req, res, next) => {
+    // try {
+
+    // } catch (error) {
+
+    // }
+
+    res.json({ success: true, message: 'Welcome' });
+};
+
+/**
+ * decoding the jwt from headers to make sure user is allowed to visit resources.
+ * best to use in the middleware
+ */
+// const decode = jwt.verify(token, 'secret')
+// const user = await User.findById(decode.id);
+// next();
