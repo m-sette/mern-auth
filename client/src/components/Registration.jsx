@@ -8,6 +8,8 @@ const Registration = () => {
         password: '',
     });
 
+    //TODO change to use formData
+
     const handleChange = (e) => {
         setData({ ...data, [e.target.name]: e.target.value });
     };
@@ -17,7 +19,7 @@ const Registration = () => {
 
         try {
             const res = await axios.post(
-                'http://localhost:4000/api/users',
+                'http://localhost:4000/users/register',
                 data,
                 {
                     headers: {

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import axios from 'axios'
+import axios from 'axios';
 
 const Login = () => {
     const [data, setData] = useState({
@@ -14,19 +14,19 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-           const res = await axios.post(
-               'http://localhost:4000/login',
-               data,
-               {
-                   headers: {
-                       'Content-Type': 'application/json',
-                   },
-               }
-           );
+            const res = await axios.post(
+                'http://localhost:4000/users/login',
+                data,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
 
-            console.log("res", res)
+            console.log('res', res);
         } catch (error) {
-            console.error(error)
+            console.error(error.response.data);
         }
     };
     return (

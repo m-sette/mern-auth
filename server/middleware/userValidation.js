@@ -1,25 +1,29 @@
 import { body, validationResult } from 'express-validator';
 
-const userValidation = () => {
-    return [
-        body('firstname').exists(),
-        body('lastname').exists(),
-        body('email').isEmail(),
-        body('password').exists(),
-    ];
-};
+const registerValidation = [
+    body('firstname').notEmpty(),
+    body('lastname').notEmpty(),
+    body('email').isEmail(),
+    body('password')
+        .isLength({ min: 3 })
+        .withMessage('must be at least 3 chars long'),
+];
+
+const loginValidation = [
+    body('email').isEmail(),
+    body('password').isLength({ min: 3 }),
+];
 
 const validate = (req, res, next) => {
     const errors = validationResult(req);
-    if (errors.isEmpty()) {
-        return next();
+    if (!errors.isEmpty()) {
+        const error = new Error('User request malformed', {
+            cause: errors.array(),
+        });
+        error.status = 400;
+        next(error);
     }
-
-    const errorMessages = [];
-    errors.array().map((err) => errorMessages.push({ [err.param]: err.msg }));
-    return res.status(400).json({
-        errors: errorMessages,
-    });
+    next();
 };
 
-export { userValidation, validate };
+export { registerValidation, validate, loginValidation };

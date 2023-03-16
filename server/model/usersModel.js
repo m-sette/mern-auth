@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import bcrypt from "bcrypt";
+import bcrypt from 'bcrypt';
 const saltRounds = 12;
 
 const userSchema = new Schema({
@@ -14,13 +14,15 @@ const userSchema = new Schema({
     email: {
         type: String,
         required: true,
-        index: { unique: true }
+        index: { unique: true },
     },
     password: {
         type: String,
         required: true,
     },
 });
+
+// TODO remove the hashing logic from the model
 userSchema.pre('save', async function save(next) {
     if (!this.isModified('password')) return next();
     try {
