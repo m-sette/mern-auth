@@ -4,6 +4,9 @@ import Auth from './pages/Auth.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 
 function App() {
+    // TODO: Create a context for the user logged in
+
+    // TODO: Create a protected route for the dashboard
     return (
         <div className='App'>
             <h1>Hello from the frontend</h1>

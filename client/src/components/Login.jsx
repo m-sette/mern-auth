@@ -1,13 +1,21 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Login = () => {
+    const [token, setToken] = useState(null);
     const [data, setData] = useState({
         email: '',
         password: '',
     });
+
     const navigate = useNavigate();
+    useEffect(() => {
+        localStorage.setItem('token', JSON.stringify(token));
+        if (token) {
+            navigate('/dashboard');
+        }
+    }, [token]);
 
     const handleChange = (e) => {
         setData({ ...data, [e.target.name]: e.target.value });
@@ -26,12 +34,10 @@ const Login = () => {
                 }
             );
 
-            console.log('res', res);
-            if (res.data.success) {
-                navigate('/dashboard');
-            }
+            console.log('res', res.headers.token);
+            setToken(res.headers.token);
         } catch (error) {
-            console.error(error.response.data);
+            console.error(error);
         }
     };
     return (

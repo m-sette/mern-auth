@@ -35,7 +35,7 @@ export const userLogin = async (req, res, next) => {
         /**
          * create a token to send in the headers
          */
-        const token = jwt.sign({ email: user.email }, 'secrete');
+        const token = jwt.sign({ email: user.email }, 'secret');
 
         res.status(202).header('token', token).json({ success: true, email });
     } catch (error) {
@@ -44,19 +44,16 @@ export const userLogin = async (req, res, next) => {
 };
 
 export const getUser = async (req, res, next) => {
-    // try {
+    try {
+        const { token } = req.headers;
+        const decode = await jwt.verify(token, 'secret');
+        const user = await User.findOne(
+            { email: decode.email },
+            'firstname lastname email'
+        ).exec();
 
-    // } catch (error) {
-
-    // }
-
-    res.json({ success: true, message: 'Welcome' });
+        res.json({ success: true, user });
+    } catch (e) {
+        next(e);
+    }
 };
-
-/**
- * decoding the jwt from headers to make sure user is allowed to visit resources.
- * best to use in the middleware
- */
-// const decode = jwt.verify(token, 'secret')
-// const user = await User.findById(decode.id);
-// next();
