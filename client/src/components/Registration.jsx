@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
-const Registration = () => {
-    const [data, setData] = useState({
+const Registration = ({ setIsLogin }) => {
+    const [input, setInput] = useState({
         firstname: '',
         lastname: '',
         email: '',
@@ -11,16 +11,16 @@ const Registration = () => {
     //TODO change to use formData
 
     const handleChange = (e) => {
-        setData({ ...data, [e.target.name]: e.target.value });
+        setInput({ ...input, [e.target.name]: e.target.value });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            const res = await axios.post(
+            const { data } = await axios.post(
                 'http://localhost:4000/users/register',
-                data,
+                input,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -28,26 +28,30 @@ const Registration = () => {
                 }
             );
 
-            console.log(res);
+            console.log(data);
+            if (data.success) {
+                // TODO: create own costom message
+                window.alert(data.message);
+                setIsLogin(true);
+            }
         } catch (error) {
-            console.error(error.response.data);
+            console.error(error);
         }
     };
     return (
         <form onSubmit={handleSubmit}>
-            <h3>Registration</h3>
             <input
                 type='text'
                 name='firstname'
                 placeholder='First Name'
-                value={data.firstname}
+                value={input.firstname}
                 onChange={handleChange}
             />
             <input
                 type='text'
                 name='lastname'
                 placeholder='Last Name'
-                value={data.lastname}
+                value={input.lastname}
                 onChange={handleChange}
             />
             <input
@@ -55,14 +59,14 @@ const Registration = () => {
                 name='email'
                 id='email'
                 placeholder='Email'
-                value={data.email}
+                value={input.email}
                 onChange={handleChange}
             />
             <input
                 type='password'
                 name='password'
                 placeholder='Password'
-                value={data.password}
+                value={input.password}
                 onChange={handleChange}
             />
             <button type='submit'>Sign Up</button>

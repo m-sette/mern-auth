@@ -4,7 +4,7 @@ import Registration from '../components/Registration.jsx';
 
 import './Auth.css';
 
-const Auth = () => {
+const Auth = ({ token, setToken }) => {
     const [isLogin, setIsLogin] = useState(true);
 
     console.log(isLogin);
@@ -14,7 +14,11 @@ const Auth = () => {
     };
     return (
         <div className='forms'>
-            {isLogin ? <Login /> : <Registration />}
+            {isLogin ? (
+                <Login token={token} setToken={setToken} />
+            ) : (
+                <Registration setIsLogin={setIsLogin} />
+            )}
 
             <div className='form-separator'></div>
 

@@ -1,4 +1,4 @@
-import { body, validationResult } from 'express-validator';
+import { body, validationResult, header } from 'express-validator';
 
 const registerValidation = [
     body('firstname').notEmpty(),
@@ -14,6 +14,8 @@ const loginValidation = [
     body('password').isLength({ min: 3 }),
 ];
 
+const tokenValidation = [header('token').exists()];
+
 const validate = (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -26,4 +28,4 @@ const validate = (req, res, next) => {
     next();
 };
 
-export { registerValidation, validate, loginValidation };
+export { registerValidation, validate, loginValidation, tokenValidation };

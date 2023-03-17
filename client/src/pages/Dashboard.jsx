@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import './Dashboard.css';
 
 const Dashboard = () => {
     const [user, setUser] = useState(null);
@@ -10,7 +11,6 @@ const Dashboard = () => {
      */
 
     useEffect(() => {
-        // TODO: fetch GET the user, passing the jwt in the headers.
         const tokenStorage = JSON.parse(localStorage.getItem('token'));
         console.log('token from dashboard', tokenStorage);
         axios
@@ -25,7 +25,7 @@ const Dashboard = () => {
     }, []);
 
     return (
-        <div>
+        <div className='dashboard'>
             <h2>The dashboard page</h2>
             {user && (
                 <h3>

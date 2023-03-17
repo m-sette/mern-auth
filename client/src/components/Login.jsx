@@ -1,20 +1,15 @@
 import { useEffect, useState } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { Navigate } from 'react-router-dom';
 
-const Login = () => {
-    const [token, setToken] = useState(null);
+const Login = ({ token, setToken }) => {
     const [data, setData] = useState({
         email: '',
         password: '',
     });
 
-    const navigate = useNavigate();
     useEffect(() => {
         localStorage.setItem('token', JSON.stringify(token));
-        if (token) {
-            navigate('/dashboard');
-        }
     }, [token]);
 
     const handleChange = (e) => {
@@ -40,9 +35,11 @@ const Login = () => {
             console.error(error);
         }
     };
+    if (token) {
+        return <Navigate to='/dashboard' />;
+    }
     return (
         <form onSubmit={handleSubmit}>
-            <h3>Login</h3>
             <input
                 type='email'
                 name='email'
