@@ -37,7 +37,9 @@ export const userLogin = async (req, res, next) => {
          */
         const token = jwt.sign({ email: user.email }, 'secret');
 
-        res.status(202).header('token', token).json({ success: true, email });
+        res.status(202)
+            .header('Authorization', 'Bearer ' + token)
+            .json({ success: true, email });
     } catch (error) {
         next(error);
     }
@@ -45,7 +47,9 @@ export const userLogin = async (req, res, next) => {
 
 export const getUser = async (req, res, next) => {
     try {
-        const { token } = req.headers;
+        const authHeader = req.headers['authorization'];
+        const token = authHeader && authHeader.split(' ')[1];
+
         const decode = await jwt.verify(token, 'secret');
         const user = await User.findOne(
             { email: decode.email },

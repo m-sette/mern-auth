@@ -15,7 +15,7 @@ const Dashboard = () => {
         console.log('token from dashboard', tokenStorage);
         axios
             .get('http://localhost:4000/users/', {
-                headers: { token: tokenStorage },
+                headers: { Authorization: `Bearer ${tokenStorage}` },
             })
             .then(({ data }) => {
                 console.log('res', data);

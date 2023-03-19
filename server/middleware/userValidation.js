@@ -14,7 +14,7 @@ const loginValidation = [
     body('password').isLength({ min: 3 }),
 ];
 
-const tokenValidation = [header('token').exists()];
+const tokenValidation = [header('Authorization').exists()];
 
 const validate = (req, res, next) => {
     const errors = validationResult(req);

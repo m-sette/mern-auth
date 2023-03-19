@@ -29,8 +29,11 @@ const Login = ({ token, setToken }) => {
                 }
             );
 
-            console.log('res', res.headers.token);
-            setToken(res.headers.token);
+            console.log('res', res.headers.getAuthorization());
+            const auth = res.headers.getAuthorization();
+            const token = auth.split(' ')[1];
+            console.log(token);
+            setToken(token);
         } catch (error) {
             console.error(error);
         }
