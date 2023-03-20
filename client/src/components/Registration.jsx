@@ -1,8 +1,6 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
-import userContext from '../context/userContext.jsx';
-const Registration = () => {
-    const { setToken } = useContext(userContext);
+const Registration = ({ setIsLogin }) => {
     const [input, setInput] = useState({
         firstname: '',
         lastname: '',
@@ -30,7 +28,6 @@ const Registration = () => {
                 }
             );
 
-            console.log(data);
             if (data.success) {
                 // TODO: create own costom message
                 window.alert(data.message);

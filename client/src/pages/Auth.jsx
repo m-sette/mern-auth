@@ -12,7 +12,7 @@ const Auth = () => {
     };
     return (
         <div className='forms'>
-            {isLogin ? <Login /> : <Registration />}
+            {isLogin ? <Login /> : <Registration setIsLogin={setIsLogin} />}
 
             <div className='form-separator'></div>
 
