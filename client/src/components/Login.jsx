@@ -1,8 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { Navigate } from 'react-router-dom';
+import userContext from '../context/userContext.jsx';
 
-const Login = ({ token, setToken }) => {
+const Login = () => {
+    const { token, setToken } = useContext(userContext);
     const [data, setData] = useState({
         email: '',
         password: '',
@@ -29,10 +31,8 @@ const Login = ({ token, setToken }) => {
                 }
             );
 
-            console.log('res', res.headers.getAuthorization());
             const auth = res.headers.getAuthorization();
             const token = auth.split(' ')[1];
-            console.log(token);
             setToken(token);
         } catch (error) {
             console.error(error);

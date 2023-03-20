@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import userContext from '../context/userContext.jsx';
 
 import './Header.css';
 
-const Header = ({ token }) => {
+const Header = () => {
+    const { token } = useContext(userContext);
     return (
         <header>
-            <h1>My Awasone Dashboard</h1>
+            <h1>My Awesome Dashboard</h1>
             {token && (
                 <button
                     onClick={() => {

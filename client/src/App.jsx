@@ -6,46 +6,44 @@ import Dashboard from './pages/Dashboard.jsx';
 import { useState, useEffect } from 'react';
 import WithoutCredential from './components/WithoutCredential';
 import Header from './components/Header';
+import userContext from './context/userContext.jsx';
 
 const checkLocalStorage = () => {
     const token = JSON.parse(localStorage.getItem('token'));
-
     if (token) return token;
-
     return null;
 };
 
 function App() {
-    // TODO: Create a context for the user logged in
-
     const [token, setToken] = useState(checkLocalStorage());
     useEffect(() => {
-        console.log('cureent token: ', token);
         localStorage.setItem('token', JSON.stringify(token));
     }, [token]);
 
     return (
-        <div className='App'>
-            <Header token={token} />
-            <Routes>
-                <Route
-                    path='/'
-                    element={
-                        <WithoutCredential>
-                            <Auth token={token} setToken={setToken} />
-                        </WithoutCredential>
-                    }
-                />
-                <Route
-                    path='/dashboard/'
-                    element={
-                        <ProtectedRoute token={token}>
-                            <Dashboard />
-                        </ProtectedRoute>
-                    }
-                />
-            </Routes>
-        </div>
+        <userContext.Provider value={{ token, setToken }}>
+            <div className='App'>
+                <Header />
+                <Routes>
+                    <Route
+                        path='/'
+                        element={
+                            <WithoutCredential>
+                                <Auth />
+                            </WithoutCredential>
+                        }
+                    />
+                    <Route
+                        path='/dashboard/'
+                        element={
+                            <ProtectedRoute>
+                                <Dashboard />
+                            </ProtectedRoute>
+                        }
+                    />
+                </Routes>
+            </div>
+        </userContext.Provider>
     );
 }
 

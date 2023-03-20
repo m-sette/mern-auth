@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import axios from 'axios';
-const Registration = ({ setIsLogin }) => {
+import userContext from '../context/userContext.jsx';
+const Registration = () => {
+    const { setToken } = useContext(userContext);
     const [input, setInput] = useState({
         firstname: '',
         lastname: '',

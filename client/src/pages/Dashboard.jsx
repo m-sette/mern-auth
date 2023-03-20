@@ -12,13 +12,11 @@ const Dashboard = () => {
 
     useEffect(() => {
         const tokenStorage = JSON.parse(localStorage.getItem('token'));
-        console.log('token from dashboard', tokenStorage);
         axios
             .get('http://localhost:4000/users/', {
                 headers: { Authorization: `Bearer ${tokenStorage}` },
             })
             .then(({ data }) => {
-                console.log('res', data);
                 setUser(data.user);
             })
             .catch((e) => console.error(e));
